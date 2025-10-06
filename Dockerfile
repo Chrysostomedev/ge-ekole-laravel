@@ -30,10 +30,11 @@ COPY --from=vendor /app /var/www
 # Exécute l'optimisation de Laravel (cache de configuration)
 RUN php artisan config:cache
 
+# NOUVEAU : Exécute les migrations de la base de données lors de la construction de l'image
+RUN php artisan migrate --force
+
 # S'assure que PHP-FPM utilise l'utilisateur 'www-data' (meilleure sécurité)
 USER www-data
-
-# ... (le code précédent reste le même)
 
 # Expose le port par défaut de Render (80)
 EXPOSE 8080
