@@ -33,10 +33,11 @@ RUN php artisan config:cache
 # S'assure que PHP-FPM utilise l'utilisateur 'www-data' (meilleure sécurité)
 USER www-data
 
-# Expose le port par défaut de PHP-FPM
-EXPOSE 9000
+# ... (le code précédent reste le même)
 
-# Définit le point d'entrée pour démarrer l'application
-# Nous allons utiliser un serveur web séparé (comme Nginx) dans un autre conteneur (Render gère ça pour nous)
-# Ici, nous nous assurons que le FPM est prêt.
-CMD ["php-fpm"]
+# Expose le port par défaut de Render (80)
+EXPOSE 8080
+
+# Définit le point d'entrée pour démarrer l'application avec le serveur d'artisan
+# Le port 8080 est le port standard de Render pour les applications web
+CMD php artisan serve --host=0.0.0.0 --port=8080
